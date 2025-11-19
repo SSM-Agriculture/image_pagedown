@@ -24,16 +24,16 @@ RUN wget -q https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO
 
 # Installer packages R utiles
 
-RUN install2.r --error --skipinstalled 
-tidyverse 
-rmarkdown 
-quarto 
-pagedown
+RUN install2.r --error --skipinstalled \
+    tidyverse \
+    rmarkdown \
+    quarto \
+    pagedown
 
 # Installer TinyTeX pour Quarto PDF
 
-RUN Rscript -e "install.packages('tinytex', repos='[https://cloud.r-project.org](https://cloud.r-project.org)')" && 
-curl -sL "[https://yihui.org/tinytex/install-bin-unix.sh](https://yihui.org/tinytex/install-bin-unix.sh)" | sh
+RUN Rscript -e "install.packages('tinytex', repos='https://cloud.r-project.org')" && \
+    curl -sL "https://yihui.org/tinytex/install-bin-unix.sh" | sh
 
 # Ajouter TinyTeX et Chromium au PATH
 
@@ -41,10 +41,10 @@ ENV PATH="/root/.TinyTeX/bin/x86_64-linux:/usr/bin:${PATH}"
 
 # Vérifications
 
-RUN quarto --version 
-&& Rscript -e "tinytex::is_tinytex()" 
-&& which pdflatex 
-&& which xelatex 
-&& chromium --version
+RUN quarto --version && \
+    Rscript -e "tinytex::is_tinytex()" && \
+    which pdflatex && \
+    which xelatex && \
+    chromium --version
 
 CMD ["R"]
