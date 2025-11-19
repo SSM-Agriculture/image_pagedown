@@ -4,14 +4,15 @@ FROM rocker/r-ver:4.5.1
 
 # Installer dépendances système et librairies pour Chromium
 
-RUN apt-get update && apt-get install -y --no-install-recommends 
-wget curl gdebi-core libcurl4-openssl-dev libssl-dev libxml2-dev zlib1g-dev 
-git pandoc fonts-dejavu xvfb 
-chromium 
-fonts-liberation libnss3 libx11-xcb1 libxcomposite1 libxcursor1 
-libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 
-libxss1 libxtst6 ca-certificates 
-&& rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget curl gdebi-core libcurl4-openssl-dev libssl-dev libxml2-dev zlib1g-dev \
+    git pandoc fonts-dejavu xvfb \
+    chromium \
+    fonts-liberation libnss3 libx11-xcb1 libxcomposite1 libxcursor1 \
+    libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 \
+    libxss1 libxtst6 ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
 
 # Installer Quarto CLI
 
