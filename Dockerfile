@@ -13,7 +13,5 @@ RUN curl -L http://bit.ly/google-chrome-stable -o chrome.deb && \
 
 RUN install2.r --error --deps TRUE pagedown
 
-COPY test.Rmd .
-
 COPY Renviron /.Renviron
 COPY google-chrome /usr/local/bin/

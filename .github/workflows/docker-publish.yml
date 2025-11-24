@@ -13,43 +13,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Connexion à Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Generate Dockerfile
-        run: |
-          cat > Dockerfile <<'EOF'
-          FROM rocker/r-ver:4.1.0
-
-          RUN apt-get update -qq && \
-              apt-get install -y -qq --no-install-recommends \
-                  libz-dev \
-                  libpoppler-cpp-dev \
-                  pandoc \
-                  curl
-
-          RUN curl -L http://bit.ly/google-chrome-stable -o chrome.deb && \
-              apt-get -y install ./chrome.deb && \
-              rm chrome.deb
-
-          RUN install2.r --error --deps TRUE pagedown
-
-          COPY test.Rmd .
-
-          COPY Renviron /.Renviron
-          COPY google-chrome /usr/local/bin/
-          EOF
-
+      # Builder et tagger l’image
       - name: Build and tag Docker image
         run: |
           IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/pagedown
-          docker build -t $IMAGE_NAME:${{ github.sha }} -t $IMAGE_NAME:latest .
+          docker build -t $IMAGE_NAME:1.4.550 .
+          docker tag $IMAGE_NAME:1.4.550 $IMAGE_NAME:latest
 
+      # Pousser vers Docker Hub
       - name: Push image to Docker Hub
         run: |
           IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/pagedown
-          docker push $IMAGE_NAME:${{ github.sha }}
+          docker push $IMAGE_NAME:1.4.550
           docker push $IMAGE_NAME:latest
