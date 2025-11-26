@@ -23,13 +23,13 @@ jobs:
       # Builder et tagger l’image
       - name: Build and tag Docker image
         run: |
-          IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/pagedown
-          docker build -t $IMAGE_NAME:1.4.550 .
+          IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/chrome
+          docker build -t $IMAGE_NAME:0.0.1 .
           docker tag $IMAGE_NAME:1.4.550 $IMAGE_NAME:latest
 
       # Pousser vers Docker Hub
       - name: Push image to Docker Hub
         run: |
-          IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/pagedown
-          docker push $IMAGE_NAME:1.4.550
+          IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/chrome
+          docker push $IMAGE_NAME:0.0.1
           docker push $IMAGE_NAME:latest
